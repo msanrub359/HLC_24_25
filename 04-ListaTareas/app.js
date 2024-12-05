@@ -1,6 +1,6 @@
 "use strict"
 //import {mostrarMenu, pausa  } from "./menus/menuInput.js";
-import { mostrarMenuInquirer, pausa, leerInput } from "./menus/menuInquirer.js";
+import { mostrarMenuInquirer, pausa, leerInput, mostrarTareas, listadoTareaBorrar } from "./menus/menuInquirer.js";
 import { Tareas } from "./models/tarea.js";
 import { readTareas, saveTareas } from "./saveGetBD/BDTareas.js";
 console.clear();
@@ -33,10 +33,12 @@ const main= async()=>{
                 tareas.listadoPendCompl(false)
                 break;
             case '5':
-                 
+                  const ids= await mostrarTareas(tareas.listTareas);
+                  tareas.completarTareas(ids);
                  break;
             case '6':
-                
+                 const id= await listadoTareaBorrar(tareas.listTareas);
+                 tareas.borrarTarea(id);
                  break;
             default:
                 break;

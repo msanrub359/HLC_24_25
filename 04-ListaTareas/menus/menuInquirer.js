@@ -76,3 +76,46 @@ export const leerInput = async (mensaje) => {
   const {desc} =await inquirer.prompt(pregunta);
   return desc
 };
+
+export const mostrarTareas= async (tareas=[])=>{
+  const idsTareas=tareas.map((tarea, index)=>{
+    const idx= `${index+1}.`.green;
+    return {
+      value: tarea.id,
+      name: `${idx} - ${tarea.desc}`,
+      checked: tarea.completada ? true :false
+    }
+    
+  })
+  //mostrar el prompt
+
+  const preguntas=[{
+    type:'checkbox',
+    name: 'ids',
+    message: 'Seleccione tareas',
+    choices: idsTareas
+  }]
+  const {ids} = await inquirer.prompt(preguntas);
+  return ids
+}
+
+export const listadoTareaBorrar= async (tareas=[])=>{
+  const idsTareas=tareas.map((tarea, index)=>{
+    const idx= `${index+1}.`.green;
+    return {
+      value: tarea.id,
+      name: `${idx} - ${tarea.desc}`
+    }
+    
+  })
+  //configurar el prompt
+
+  const preguntas=[{
+    type:'list',
+    name: 'id',
+    message: '¿Qué tarea va a ser borrada?',
+    choices: idsTareas
+  }]
+  const {id} = await inquirer.prompt(preguntas);
+  return id
+}
