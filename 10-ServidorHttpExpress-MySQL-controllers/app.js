@@ -1,41 +1,28 @@
-"use strict"
-//Importar el paquete express
-import express from 'express'
-import { routerAlumnos } from './routes/alumnos.routes.js';
-import { routerCursos } from './routes/cursos.routes.js';
-import { routerModulos } from './routes/modulos.routes.js';
-import { routerCalificaciones } from './routes/calificaciones.routes.js';
+import express from 'express';
+import { routesAlumnos } from './routes/alumnos.routes.js';
+import { routesModulos } from './routes/modulos.routes.js';
+import { routesCursos } from './routes/cursos.routes.js';
+import { routesCalificaciones } from './routes/calificaciones.routes.js';
 
-//Definer el puerto
-const PORT =3000;
+const app = express();
+//Configurar puerto
+const PORT = 3000;
 
+// Middleware para parsear JSON
+app.use(express.json());
 
-//crear una aplicación express
-const app=express();
+// Usar las rutas directas); // No necesitas añadir un prefijo aquí
+app.use(routesAlumnos);
+app.use(routesModulos);
+app.use(routesCursos);
+app.use(routesCalificaciones)
 
-//para parsear la petición al usuario
-app.use(express.json())
+// Manejar rutas no encontradas (404)
+app.use((req, res) => {
+    res.status(404).json({ message: 'Página no encontrada' });
+});
 
-//Usar las rutas directas;
-app.use(routerAlumnos);
-app.use(routerCursos);
-app.use(routerModulos);
-app.use(routerCalificaciones);
- //ruta principal
-
-
-app.get('/', (req,res)=>{
-    res.send("¡Hola Mundo del Servidor Node.js!")
- })
-
- 
-
- //manejar las rutas no encontradas (404)
- app.use((req, res)=>{
-    res.status(404).send("¡¡¡Página errónea!!!")
- }) 
-       
-//iniciar el servidor y escuchar por el puesto establecido
-app.listen(PORT, ()=>{
-    console.log(`¡Servidor corriendo en la URL https://localhost:${PORT}` );
-})
+// Iniciar el servidor
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});

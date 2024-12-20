@@ -1,23 +1,16 @@
+"use strict"
+
 import { Router } from 'express';
+import { getCurso, getCursos,addCurso,updateCurso, updatePatchCurso, delCurso } from '../controllers/cursos.controllers.js';
 
-const router=Router(); //manejar las rutas
+const router = Router();
 
-router.get('/cursos', (req,res)=>{
-    res.send("Obteniendo cursos")
- });
- router.post('/cursos', (req,res)=>{
-   res.send("Añadiendo curso")
-})
-router.put('/cursos', (req,res)=>{
-   res.send("Actualización total de curso")
-})
-router.patch('/cursos', (req,res)=>{
-   res.send("Actualización parcial del curso")
-})
-router.delete('/cursos', (req,res)=>{
-   res.send("Borrado del curso")
-})
 
-//exportar las rutas
+router.get('/cursos', getCursos);
+router.get('/cursos/:id', getCurso);
+router.post('/cursos', addCurso);
+router.put('/cursos/:id', updateCurso);
+router.patch('/cursos/:id', updatePatchCurso);
+router.delete('/cursos/:id',  delCurso);
 
-export {router as routerCursos}
+export { router as routesCursos };

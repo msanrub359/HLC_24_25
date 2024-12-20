@@ -1,23 +1,17 @@
-import { Router } from 'express';
+"use strict";
 
-const router=Router(); //manejar las rutas
+import { Router } from "express";
 
-router.get('/modulos', (req,res)=>{
-    res.send("Obteniendo modulo")
- });
- router.post('/modulos', (req,res)=>{
-   res.send("Añadiendo modulo")
-})
-router.put('/modulos', (req,res)=>{
-   res.send("Actualización total de modulo")
-})
-router.patch('/modulos', (req,res)=>{
-   res.send("Actualización parcial del modulo")
-})
-router.delete('/modulos', (req,res)=>{
-   res.send("Borrado del modulo")
-})
+import { getModulos, getModulo, getModuloCurso, delModulo, addModulo, updateModulo, updatePatchModulo } from '../controllers/modulos.controllers.js';
 
-//exportar las rutas
+const router = Router();
+//responder a los endpoint. Representa una acción de la API
+router.get('/modulos', getModulos);
+router.get('/modulos/id/:id', getModulo);
+router.get('/modulos/idCurso/:idCurso', getModuloCurso);
+router.post('/modulos', addModulo);
+router.put('/modulos/:id', updateModulo);
+router.patch('/modulos/:id', updatePatchModulo);
+router.delete('/modulos/:id',  delModulo);
 
-export {router as routerModulos}
+export { router as routesModulos };

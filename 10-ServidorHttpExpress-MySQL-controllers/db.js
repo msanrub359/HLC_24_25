@@ -1,28 +1,27 @@
-"use strict"
+import mysql from 'mysql2/promise'; // Importamos el módulo `mysql2` con soporte para promesas
 
-import mysql from 'mysql2/promise';
-
-//Configurar un pool de conexiones con MYSQL
+// Configuramos un pool de conexiones con MySQL
 export const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'ciclostrassierra',
-    waitForConnections : true, //Espera a la conexión si todas están ocupadas
-    connectionLimit: 10, //Números máximo de conexiones simultáneas en el pool
-    queueLimit: 0, //Limite para la cola de solicitudes (0 significa ilimitado)
+    host: 'localhost',  // Dirección del servidor MySQL (usualmente 'localhost' si está en tu máquina local)
+    user: 'root',       // Nombre de usuario para conectarse a la base de datos
+    password: '',       // Contraseña del usuario (debe ser configurada si tienes una contraseña definida)
+    database: 'ciclostrassierra', // Nombre de la base de datos a la que deseas conectarte
+    waitForConnections: true,    // Espera conexiones si todas están ocupadas
+    connectionLimit: 10,         // Número máximo de conexiones simultáneas en el pool
+    queueLimit: 0                // Límite para la cola de solicitudes (0 significa ilimitado)
 });
 
-//verificar si la conexión es exitosa
-(async()=>{
+// Verificamos si la conexión al pool de MySQL es exitosa
+(async () => {
     try {
-        //Intentar crear una conexión
+        // Intentamos obtener una conexión del pool
         const connection = await pool.getConnection();
-        console.log('Conexión con MySQL establecida correctamente');
-        //liberar la conexión
+        console.log('Conexión con MySQL establecida correctamente.'); // Si es exitoso, mostramos un mensaje en la consola
+
+        // Liberamos la conexión para que pueda ser reutilizada
         connection.release();
     } catch (error) {
-        console.log(`Error al conectar con MySQL ${error.message}`);
+        // En caso de error, mostramos el mensaje correspondiente en la consola
+        console.error('Error al conectar con MySQL:', error.message);
     }
-
-})()
+})();

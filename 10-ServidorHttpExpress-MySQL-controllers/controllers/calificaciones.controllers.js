@@ -1,50 +1,51 @@
 import { pool } from '../db.js'
 
-export const getAlumnos = async (req, res) => {
+export const getCalificaciones = async (req, res) => {
   try {
-    const [result] = await pool.query("SELECT * FROM alumnos");
+    const [result] = await pool.query("SELECT * FROM calificaciones");
+    console.log(result);
     res.status(200).json(result);
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error al obtener alumnos", error: error.message });
+      .json({ message: "Error al obtener calificaciones", error: error.message });
   }
 };
 
-export const getAlumno = async (req, res) => {
+export const getCalificacion = async (req, res) => {
   try {
-    console.log(req.params);
+   
     const {id}=req.params
-    const [result] = await pool.query("SELECT * FROM alumnos where idAlumno=?",[id] );
-    console.log(result);
+    const [result] = await pool.query("SELECT * FROM calificaciones where idCalificaciones=?",[id] );
+   
     res.status(200).json(result);
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error al obtener alumnos", error: error.message });
+      .json({ message: "Error al obtener la calificación", error: error.message });
   }
 };
 
-export const getAlumnoCurso = async (req, res) => {
+export const getCursoCalificacion = async (req, res) => {
   try {
-    console.log(req.params);
-    const {idCurso}=req.params
-    const [result] = await pool.query("SELECT * FROM alumnos where idCurso=?",[idCurso] );
-    console.log(result);
+   
+    const {id}=req.params
+    const [result] = await pool.query("SELECT * FROM calificaciones where idCurso=?",[id] );
+   
     res.status(200).json(result);
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error al obtener alumnos", error: error.message });
+      .json({ message: "Error al obtener la calificación", error: error.message });
   }
 };
 
-export const addAlumno = async (req, res) => {
+export const addCalificacion = async (req, res) => {
   try {
     console.log(req.body);
-    const {nameAl, idCurso}=req.body;
+    const {idCurso, idModulo, idAlumno, calificacion}=req.body;
 
-     const [result]=await pool.query("INSERT INTO alumnos (apellidosNombre, idCurso) VALUES (?,?)", [nameAl, idCurso]);
+     const [result]=await pool.query("INSERT INTO calificaciones (idCurso, idModulo, idAlumno, calificacion) VALUES (?,?,?,?)", [idCurso, idModulo, idAlumno, calificacion]);
      console.log(result);
 
      res.status(201).json({id:result.insertId});
@@ -55,13 +56,14 @@ export const addAlumno = async (req, res) => {
 }
 };
 
-export const updateAlumno = async (req, res) =>{
+export const updateCalificacion = async (req, res) =>{
+  
   try {
-    console.log(req.body);
-    const {nameAl, idCurso}=req.body;
+   
+    const {idCurso, idModulo, idAlumno, calificacion}=req.body;
     const {id}=req.params;
-
-    const [result]=await pool.query("UPDATE alumnos SET apellidosNombre=?, idCurso=? WHERE idAlumno=?", [nameAl, idCurso, id]);
+    console.log(id);
+    const [result]=await pool.query("UPDATE calificaciones SET idCurso=?, idModulo=?, idAlumno=?, calificacion=? WHERE idCalificaciones=?", [idCurso, idModulo, idAlumno, calificacion, id]);
     //const [result]=await pool.query("UPDATE alumnos SET apellidosNombre=IFNULL(?,apellidosNombre), idCurso=IFNULL(?, idCurso) WHERE idAlumno=?", [nameAl, idCiclo, id]);
     
      console.log(result);
@@ -83,13 +85,13 @@ export const updateAlumno = async (req, res) =>{
 
 }
 
-export const updatePatchAlumno = async (req, res) =>{
+export const updatePatchCalificacion = async (req, res) =>{
   try {
     console.log(req.body);
-    const {nameAl, idCurso}=req.body;
+    const {idCurso, idModulo, idAlumno, calificacion}=req.body;
     const {id}=req.params;
     
-    const [result]=await pool.query("UPDATE alumnos SET apellidosNombre=IFNULL(?,apellidosNombre), idCurso=IFNULL(?, idCurso) WHERE idAlumno=?", [nameAl, idCurso, id]);
+    const [result]=await pool.query("UPDATE calificaciones SET idCurso=IFNULL(?,idCurso), idModulo=IFNULL(?,idModulo), idAlumno=IFNULL(?,idAlumno), calificacion=IFNULL(?,calificacion) WHERE idCalificaciones=?", [idCurso, idModulo, idAlumno, calificacion, id]);
     
      console.log(result);
      if (result.affectedRows==0){
@@ -110,13 +112,13 @@ export const updatePatchAlumno = async (req, res) =>{
 
 }
 
-export const delAlumno = async (req, res) => {
+export const delCalificacion = async (req, res) => {
   
   try {
     console.log({req});
     const {id} =req.params
-    const [result]=await pool.query("DELETE FROM alumnos WHERE idAlumno=?", [id]);
-    console.log('borrado', result);
+    const [result]=await pool.query("DELETE FROM calificaciones WHERE idCalificaciones=?", [id]);
+    console.log(result);
     if (result.affectedRows==0){
         return res.status(400).json({
             message:'no existe'

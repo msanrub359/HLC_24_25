@@ -1,23 +1,17 @@
-import { Router } from 'express';
+"use strict";
+import { getCalificaciones, getCalificacion, getCursoCalificacion, addCalificacion, updateCalificacion,updatePatchCalificacion, delCalificacion } from "../controllers/calificaciones.controllers.js";
 
-const router=Router(); //manejar las rutas
+import { Router } from "express";
 
-router.get('/calificaciones', (req,res)=>{
-    res.send("Obteniendo modulo")
- });
- router.post('/calificaciones', (req,res)=>{
-   res.send("Añadiendo modulo")
-})
-router.put('/calificaciones', (req,res)=>{
-   res.send("Actualización total de modulo")
-})
-router.patch('/calificaciones', (req,res)=>{
-   res.send("Actualización parcial del modulo")
-})
-router.delete('/calificaciones', (req,res)=>{
-   res.send("Borrado del modulo")
-})
 
-//exportar las rutas
+const router = Router();
 
-export {router as routerCalificaciones}
+router.get('/calificaciones', getCalificaciones);
+router.get('/calificaciones/id/:id', getCalificacion);
+router.get('/calificaciones/idCurso/:id', getCursoCalificacion);
+router.post('/calificaciones', addCalificacion);
+router.put('/calificaciones/:id', updateCalificacion);
+router.patch('/calificaciones/:id', updatePatchCalificacion);
+router.delete('/calificaciones/:id',  delCalificacion);
+
+export { router as routesCalificaciones };
