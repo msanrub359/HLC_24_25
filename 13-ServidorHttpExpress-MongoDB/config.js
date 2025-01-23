@@ -6,7 +6,7 @@ config();
 //acceder a las variables globales: process.env
 
 export const PORT= process.env.PORT || 3000
-export const URL="mongodb+srv:/<credencial>@clusterprueba.vd4eo.mongodb.net/?retryWrites=true&w=majority&appName=ClusterPrueba"
+export const URL="<cadena de conexión>"
 // export const DB_HOST = process.env.DB_HOST ||'localhost';
 // export const DB_PORT = process.env.DB_PORT ||3306;
 // export const DB_USER = process.env.DB_USER ||'root';
